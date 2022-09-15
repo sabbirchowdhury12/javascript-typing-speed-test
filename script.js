@@ -92,6 +92,7 @@ const gameOver = () => {
 
   addHistory(questionText, timeTaken, errorCount);
 
+
   // restart everything
   startTime = null;
   errorCount = 0;
@@ -102,6 +103,7 @@ const gameOver = () => {
 const closeModal = () => {
   modalBackground.classList.toggle("hidden");
   resultModal.classList.toggle("hidden");
+  // location.reload();
 };
 
 const start = () => {
@@ -121,11 +123,16 @@ const start = () => {
       countdownOverlay.style.display = "none";
       display.classList.remove("inactive");
 
+      countdownOverlay.innerHTML = '';
       clearInterval(startCountdown);
+
       startTime = new Date().getTime();
     }
     count--;
+
   }, 1000);
+
+
 };
 
 // START Countdown
