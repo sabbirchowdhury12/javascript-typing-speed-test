@@ -159,7 +159,8 @@ button {
   padding: 50px;
   display: flex;
   /* display 3 columns  */
-  /* flex-basis: 30%; */
+  flex-direction: column;
+  flex-basis: 30%;
   justify-content: space-between;
   align-items: center;
   padding: 20px 30px;
@@ -192,7 +193,6 @@ button {
   }
 
   .card {
-    flex-direction: column;
-    /* flex-basis: 100%; */
+    flex-basis: 100%;
   }
 }

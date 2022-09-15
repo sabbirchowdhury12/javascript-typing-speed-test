@@ -41,16 +41,17 @@
                     <h2 class="accordion-header" id="headingTwo">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            #2. Difference between global scope and local scope
+                            #2. Difference between global scope and block scope
                         </button>
                     </h2>
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            Global variables are useful for values that are relatively constant, or that many
-                            functions in the script must access, such as a session id. A local variable, however,
-                            has a limited scope: it exists only within the block that it is declared in. Once that
-                            block ends, the variable is destroyed and its values lost .
+                            Global Scope. Variables declared Globally (outside any function) have Global Scope. Global
+                            variables can be accessed from anywhere in a JavaScript program. A block scoped variable
+                            means that the variable defined within a block will not be accessible from outside the
+                            block. A block can reside inside a function, and a block scoped variable will not be
+                            available outside the block even if the block is inside a function.
                         </div>
                     </div>
                 </div>
