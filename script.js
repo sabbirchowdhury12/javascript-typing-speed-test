@@ -125,7 +125,6 @@ const start = () => {
 
       countdownOverlay.innerHTML = '';
       clearInterval(startCountdown);
-
       startTime = new Date().getTime();
     }
     count--;

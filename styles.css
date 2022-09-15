@@ -193,6 +193,7 @@ button {
   }
 
   .card {
+    /* flex-direction: row; */
     flex-basis: 100%;
   }
 }
