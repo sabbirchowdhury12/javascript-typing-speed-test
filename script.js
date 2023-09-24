@@ -43,9 +43,13 @@ const typeController = (e) => {
   const newLetterCorrect = validate(newLetter);
 
   if (newLetterCorrect) {
-    display.innerHTML += `<span class="green">${newLetter === " " ? "▪" : newLetter}</span>`;
+    display.innerHTML += `<span class="green">${
+      newLetter === " " ? "▪" : newLetter
+    }</span>`;
   } else {
-    display.innerHTML += `<span class="red">${newLetter === " " ? "▪" : newLetter}</span>`;
+    display.innerHTML += `<span class="red">${
+      newLetter === " " ? "▪" : newLetter
+    }</span>`;
     errorCount++;
   }
 
@@ -92,7 +96,6 @@ const gameOver = () => {
 
   addHistory(questionText, timeTaken, errorCount);
 
-
   // restart everything
   startTime = null;
   errorCount = 0;
@@ -123,15 +126,12 @@ const start = () => {
       countdownOverlay.style.display = "none";
       display.classList.remove("inactive");
 
-      countdownOverlay.innerHTML = '';
+      countdownOverlay.innerHTML = "";
       clearInterval(startCountdown);
       startTime = new Date().getTime();
     }
     count--;
-
   }, 1000);
-
-
 };
 
 // START Countdown
@@ -145,6 +145,7 @@ setInterval(() => {
   const currentTime = new Date().getTime();
   const timeSpent = (currentTime - startTime) / 1000;
 
-
-  document.getElementById("show-time").innerHTML = `${startTime ? Math.round(timeSpent) : 0} seconds`;
+  document.getElementById("show-time").innerHTML = `${
+    startTime ? Math.round(timeSpent) : 0
+  } seconds`;
 }, 1000);
