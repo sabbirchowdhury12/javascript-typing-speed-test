@@ -57,9 +57,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 5rem;
   color: white;
   display: none;
+  font-weight: bold;
 }
 
 #result {

@@ -7,12 +7,13 @@ const result = document.getElementById("result");
 const modal = document.getElementById("modal-background");
 const histories = document.getElementById("histories");
 
+// initilize value
 let questionText = "";
 let errorCount = 0;
 let startTime = null;
 let userText = "";
 
-// display question
+// fetch question data and display
 fetch("/texts.json")
   .then((res) => res.json())
   .then((data) => {
@@ -20,18 +21,39 @@ fetch("/texts.json")
     question.textContent = questionText;
   });
 
-function addHistory(questionText, timeTaken, errorCount) {
-  console.log("hi");
-}
+//start button
+startBtn.onclick = () => {
+  if (startTime) return;
+  let count = 3;
+  countdown.style.display = "flex";
 
+  //countdown for 3 seconds
+  const startCountDown = setInterval(() => {
+    countdown.textContent = count;
+
+    if (count < 0) {
+      document.addEventListener("keydown", typeController); // after countdown typing will acting
+      countdown.style.display = "none";
+      countdown.textContent = "";
+      display.classList.remove("inactive");
+      clearInterval(startCountDown);
+      startTime = Date.now(); // Set the start time when the game starts
+    }
+    count--;
+  }, 1000);
+};
+
+// start the typing
 const typeController = (e) => {
   const newKey = e.key;
 
+  //backspace execute
   if (newKey == "Backspace") {
     userText = userText.slice(0, userText.length - 1);
     return display.removeChild(display.lastChild);
   }
 
+  //validation for letter. expmple: shift, Alt, etc will not accepted.
   const validLetters =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890!@#$%^&*()_+-={}[]'\".,?";
   if (!validLetters.includes(newKey)) {
@@ -40,8 +62,10 @@ const typeController = (e) => {
 
   userText += newKey;
 
+  //check user input is right or wrong
   const correctLetter = validateKey(newKey);
 
+  //added user input
   if (correctLetter) {
     display.innerHTML += `<span class="green">${
       newKey == " " ? "-" : newKey
@@ -53,12 +77,22 @@ const typeController = (e) => {
     errorCount++;
   }
 
+  //after complete it will execute this function
   if (userText === questionText) {
     endGame();
   }
 };
 
+// validated user input
+const validateKey = (key) => {
+  if (key == questionText[userText.length - 1]) {
+    return true;
+  }
+  return false;
+};
+
 const endGame = () => {
+  // remove typing access
   document.removeEventListener("keydown", typeController);
 
   modal.classList.remove("hidden");
@@ -74,14 +108,17 @@ const endGame = () => {
       <button onclick="closeModal()">Close</button>
     `;
 
-  // Call addHistory with the appropriate values
+  // added history in local storage
   let history = [];
   const previousHistory = JSON.parse(localStorage.getItem("History")) || [];
 
   history = [...previousHistory, { questionText, timeTaken, errorCount }];
   localStorage.setItem("History", JSON.stringify(history));
 
+  //display history
   displayHistory();
+
+  // reset the values
   display.classList.add("inactive");
   display.innerHTML = "";
   errorCount = 0;
@@ -89,29 +126,15 @@ const endGame = () => {
   userText = "";
 };
 
-//start
-startBtn.onclick = () => {
-  if (startTime) return;
-  let count = 3;
-  countdown.style.display = "flex";
-
-  const startCountDown = setInterval(() => {
-    countdown.textContent = count;
-
-    if (count < 0) {
-      document.addEventListener("keydown", typeController);
-      countdown.style.display = "none";
-      countdown.textContent = "";
-      display.classList.remove("inactive");
-      clearInterval(startCountDown);
-      startTime = Date.now(); // Set the start time when the game starts
-    }
-    count--;
-  }, 1000);
+//close the modal
+const closeModal = () => {
+  modal.classList.add("hidden");
+  result.classList.add("hidden");
 };
 
+// display histories
 const displayHistory = () => {
-  let history = JSON.parse(localStorage.getItem("History"));
+  let history = JSON.parse(localStorage.getItem("History")) || [];
   histories.innerHTML = "";
   const row = history.forEach((element) => {
     let div = document.createElement("div");
@@ -128,28 +151,12 @@ const displayHistory = () => {
 
 displayHistory();
 
-const closeModal = () => {
-  modal.classList.add("hidden");
-  result.classList.add("hidden");
-};
-
-const validateKey = (key) => {
-  if (key == questionText[userText.length - 1]) {
-    return true;
-  }
-  return false;
-};
-
-// let history = [];
-// const previousHistory = JSON.parse(localStorage.getItem("History")) | [];
-
-// history = [...previousHistory, { text, time, error }];
-// localStorage.setItem("History", JSON.stringify(history));
-
 // //show time
-// setInterval(() => {
-//   const currentTime = Date.now();
-//   let time = (currentTime - startTime) / 1000;
-//   time = Math.floor(time);
-//   showTime.innerHTML = `${startTime ? Math.floor(time) : 0} seconds`;
-// }, 1000);
+setInterval(() => {
+  const currentTime = Date.now();
+  let time = (currentTime - startTime) / 1000;
+  time = Math.floor(time);
+  showTime.innerHTML = `${
+    startTime ? `${Math.floor(time)} seconds` : "0 second"
+  } `;
+}, 1000);
